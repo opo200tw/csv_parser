@@ -12,7 +12,7 @@ void free_csv_line( char **parsed )
     free( parsed );
 }
 
-static int count_fields( const char *line )
+int count_fields( const char *line )
 {
     const char *ptr;
     int cnt, fQuote;
@@ -58,13 +58,11 @@ static int count_fields( const char *line )
  *  which are escaped by "double quotes", extract a NULL-terminated
  *  array of strings, one for every cell in the row.
  */
-char **parse_csv( const char *line )
+char **parse_csv(const char *line, int fieldcnt)
 {
     char **buf, **bptr, *tmp, *tptr;
     const char *ptr;
-    int fieldcnt, fQuote, fEnd;
-
-    fieldcnt = count_fields( line );
+    int fQuote, fEnd;
 
     if ( fieldcnt == -1 ) {
         return NULL;
