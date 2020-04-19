@@ -6,10 +6,10 @@ void free_csv_line( char **parsed )
     char **ptr;
 
     for ( ptr = parsed; *ptr; ptr++ ) {
-        free( *ptr );
+        vPortFree( *ptr );
     }
 
-    free( parsed );
+    vPortFree( parsed );
 }
 
 int count_fields( const char *line )
@@ -68,17 +68,17 @@ char **parse_csv(const char *line, int fieldcnt)
         return NULL;
     }
 
-    buf = malloc( sizeof(char*) * (fieldcnt+1) );
+    buf = pvPortMalloc( sizeof(char*) * (fieldcnt+1) );
 
     if ( !buf ) {
         return NULL;
     }
 
-    tmp = malloc( strlen(line) + 1 );
+    tmp = pvPortMalloc( strlen(line) + 1 );
 
     if ( !tmp )
     {
-        free( buf );
+        vPortFree( buf );
         return NULL;
     }
 
@@ -123,10 +123,10 @@ char **parse_csv(const char *line, int fieldcnt)
                 if ( !*bptr )
                 {
                     for ( bptr--; bptr >= buf; bptr-- ) {
-                        free( *bptr );
+                        vPortFree( *bptr );
                     }
-                    free( buf );
-                    free( tmp );
+                    vPortFree( buf );
+                    vPortFree( tmp );
 
                     return NULL;
                 }
@@ -151,6 +151,6 @@ char **parse_csv(const char *line, int fieldcnt)
     }
 
     *bptr = NULL;
-    free( tmp );
+    vPortFree( tmp );
     return buf;
 }

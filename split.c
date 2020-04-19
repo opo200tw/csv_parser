@@ -4,7 +4,7 @@
 /*
  * Given a string which might contain unescaped newlines, split it up into
  * lines which do not contain unescaped newlines, returned as a
- * NULL-terminated array of malloc'd strings.
+ * NULL-terminated array of pvPortMalloc'd strings.
  */
 char **split_on_unescaped_newlines(const char *txt) {
     const char *ptr, *lineStart;
@@ -28,7 +28,7 @@ char **split_on_unescaped_newlines(const char *txt) {
         }
     }
 
-    buf = malloc( sizeof(char*) * (nLines+1) );
+    buf = pvPortMalloc( sizeof(char*) * (nLines+1) );
 
     if ( !buf ) {
         return NULL;
@@ -60,13 +60,13 @@ char **split_on_unescaped_newlines(const char *txt) {
                 return buf;
             }
 
-            *bptr = malloc( len + 1 );
+            *bptr = pvPortMalloc( len + 1 );
 
             if ( !*bptr ) {
                 for ( bptr--; bptr >= buf; bptr-- ) {
-                    free( *bptr );
+                    vPortFree( *bptr );
                 }
-                free( buf );
+                vPortFree( buf );
                 return NULL;
             }
 

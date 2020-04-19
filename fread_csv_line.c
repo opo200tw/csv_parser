@@ -52,9 +52,9 @@ char *fread_csv_line(FILE *fp, int max_line_size, int *done, int *err) {
 
     if ( max_line_size > prev_max_line_size ) {
         if ( prev_max_line_size != -1 ) {
-            free( buf );
+            vPortFree( buf );
         }
-        buf = malloc( max_line_size + 1 );
+        buf = pvPortMalloc( max_line_size + 1 );
         if ( !buf ) {
             *err = CSV_ERR_NO_MEMORY;
             prev_max_line_size = -1;
@@ -78,7 +78,7 @@ char *fread_csv_line(FILE *fp, int max_line_size, int *done, int *err) {
         }
 
         if ( bptr >= limit ) {
-            free( buf );
+            vPortFree( buf );
             *err = CSV_ERR_LONGLINE;
             return NULL;
         }
