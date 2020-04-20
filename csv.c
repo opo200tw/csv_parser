@@ -3,12 +3,6 @@
 
 void free_csv_line( char **parsed )
 {
-    char **ptr;
-
-    for ( ptr = parsed; *ptr; ptr++ ) {
-        vPortFree( *ptr );
-    }
-
     vPortFree( parsed );
 }
 
