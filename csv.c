@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern void vPortFree(void *);
+extern void *pvPortMalloc(size_t);
+
 void free_csv_line( char **parsed )
 {
     vPortFree( parsed );
